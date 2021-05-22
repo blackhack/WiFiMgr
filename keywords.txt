@@ -1,0 +1,17 @@
+# Syntax Coloring Map For WiFiMgr
+
+# Datatypes (KEYWORD1)
+WiFiMgr	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+EnableTimeMgr	KEYWORD2
+Disconnect	KEYWORD2
+IsConnected	KEYWORD2
+GetTimeFormat	KEYWORD2
+GetTimeInfo	KEYWORD2
+
+# Instances (KEYWORD2)
+WiFiManager	KEYWORD2
+
+# Constants (LITERAL1)
