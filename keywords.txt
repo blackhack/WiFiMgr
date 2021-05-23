@@ -10,6 +10,7 @@ Disconnect	KEYWORD2
 IsConnected	KEYWORD2
 GetTimeFormat	KEYWORD2
 GetTimeInfo	KEYWORD2
+IsTimeAvailable	KEYWORD2
 
 # Instances (KEYWORD2)
 WiFiManager	KEYWORD2

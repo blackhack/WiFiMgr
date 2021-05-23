@@ -39,6 +39,7 @@ public:
 
     String GetTimeFormat(String format);
     tm GetTimeInfo();
+    bool IsTimeAvailable() { return _time_initialized; }
 private:
     static void RunWrapper(void* parameter);
     void Run();
@@ -66,7 +67,7 @@ private:
     int32_t _state;
 
     std::atomic_bool _time_management;
-    bool _time_initialized;
+    std::atomic_bool _time_initialized;
 
     int32_t _gmt_offset;
     int32_t _daylight_offset;
