@@ -36,14 +36,19 @@ void WiFiMgr::begin(bool ap_mode, String ssid, String password)
     _password = password;
     _state = WIFIMGR_INITIAL;
 
-    xTaskCreate(
-        WiFiMgr::RunWrapper,
-        "WiFiManager",
-        3000,
-        this,
-        1,
-        nullptr
-    );
+    Connect();
+
+    if (!_ap_mode)
+    {
+        xTaskCreate(
+            WiFiMgr::RunWrapper,
+            "WiFiManager",
+            4000,
+            this,
+            1,
+            nullptr
+        );
+    }
 }
 
 void WiFiMgr::EnableTimeMgr(int32_t gmt_offset, int32_t daylight_offset, String ntp_server_1, String ntp_server_2, String ntp_server_3)
@@ -83,7 +88,7 @@ String WiFiMgr::GetTimeFormat(String format)
     }
 
     char buf[64];
-    size_t written = strftime(buf, 64, "%A, %B %d %Y %H:%M:%S", &timeinfo);
+    size_t written = strftime(buf, 64, format.c_str(), &timeinfo);
     if (written == 0)
     {
         log_e("Failed to format time");
@@ -93,17 +98,18 @@ String WiFiMgr::GetTimeFormat(String format)
     return String(buf);
 }
 
-tm WiFiMgr::GetTimeInfo()
+bool WiFiMgr::GetTimeInfo(tm* time_info)
 {
-    tm timeinfo = { 0 };
-
     if (!_time_initialized)
-        return timeinfo;
+        return false;
 
-    if (!getLocalTime(&timeinfo))
+    if (!getLocalTime(time_info))
+    {
         log_e("Failed to obtain time");
+        return false;
+    }
 
-    return timeinfo;
+    return true;
 }
 
 void WiFiMgr::RunWrapper(void* parameter)
@@ -142,9 +148,10 @@ void WiFiMgr::Connect()
 
     if (_ap_mode)
     {
-        log_i("WiFi SoftAP mode initialized");
-        WiFi.softAP(_ssid.c_str(), _password.c_str());
+        const char* ap_pass = _password.length() > 0 ? _password.c_str() : nullptr;
+        WiFi.softAP(_ssid.c_str(), ap_pass);
         _state = WIFIMGR_SOFT_AP;
+        log_i("WiFi SoftAP mode initialized, AP IP: %s", WiFi.softAPIP().toString());
     }
     else
     {
@@ -163,7 +170,7 @@ void WiFiMgr::ReconnectAttempt(uint32_t diff)
     {
         if (_state == WIFIMGR_CONNECTING)
         {
-            log_i("WiFi connected at attempt %u", attempt_count);
+            log_i("WiFi connected at attempt %u, IP: %s", attempt_count, WiFi.localIP().toString());
             _state = WIFIMGR_CONNECTED;
         }
 

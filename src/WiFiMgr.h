@@ -38,7 +38,7 @@ public:
     bool IsConnected();
 
     String GetTimeFormat(String format);
-    tm GetTimeInfo();
+    bool GetTimeInfo(tm *time_info);
     bool IsTimeAvailable() { return _time_initialized; }
 private:
     static void RunWrapper(void* parameter);
