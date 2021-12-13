@@ -28,6 +28,11 @@ WiFiMgr::WiFiMgr()
     // Other variables are initialized at .begin() and EnableTimeMgr()
 }
 
+bool WiFiMgr::config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 /*= (uint32_t)0x00000000*/, IPAddress dns2 /*= (uint32_t)0x00000000*/)
+{
+    return WiFi.config(local_ip, gateway, subnet, dns1, dns2);
+}
+
 void WiFiMgr::begin(bool ap_mode, String ssid, String password)
 {
     _running = true;
