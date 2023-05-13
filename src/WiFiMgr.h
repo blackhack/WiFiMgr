@@ -34,6 +34,8 @@ public:
     bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = (uint32_t)0x00000000, IPAddress dns2 = (uint32_t)0x00000000);
     void begin(bool ap_mode, String ssid, String password);
     void EnableTimeMgr(int32_t gmt_offset, int32_t daylight_offset, String ntp_server_1 = "pool.ntp.org", String ntp_server_2 = "", String ntp_server_3 = "");
+    void SetHostName(String hostname);
+    bool SetPowerSavingMode(wifi_ps_type_t powersaving_mode);
 
     void Disconnect();
     bool IsConnected();

@@ -19,6 +19,7 @@
 
 #include "WiFiMgr.h"
 #include "time.h"
+#include "esp_wifi.h"
 
 WiFiMgr::WiFiMgr()
 {
@@ -48,7 +49,7 @@ void WiFiMgr::begin(bool ap_mode, String ssid, String password)
         xTaskCreate(
             WiFiMgr::RunWrapper,
             "WiFiManager",
-            4000,
+            3000,
             this,
             1,
             nullptr
@@ -64,6 +65,16 @@ void WiFiMgr::EnableTimeMgr(int32_t gmt_offset, int32_t daylight_offset, String 
     _ntp_server_1 = ntp_server_1;
     _ntp_server_2 = ntp_server_2;
     _ntp_server_3 = ntp_server_3;
+}
+
+void WiFiMgr::SetHostName(String hostname)
+{
+    WiFi.setHostname(hostname.c_str());
+}
+
+bool WiFiMgr::SetPowerSavingMode(wifi_ps_type_t powersaving_mode)
+{
+    return esp_wifi_set_ps(powersaving_mode) == ESP_OK;
 }
 
 void WiFiMgr::Disconnect()
