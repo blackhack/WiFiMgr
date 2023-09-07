@@ -34,6 +34,11 @@ bool WiFiMgr::config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IP
     return WiFi.config(local_ip, gateway, subnet, dns1, dns2);
 }
 
+bool WiFiMgr::ap_config(IPAddress local_ip, IPAddress gateway, IPAddress subnet)
+{
+    return WiFi.softAPConfig(local_ip, gateway, subnet);
+}
+
 void WiFiMgr::begin(bool ap_mode, String ssid, String password)
 {
     _running = true;
