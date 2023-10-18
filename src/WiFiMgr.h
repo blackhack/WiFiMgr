@@ -20,7 +20,7 @@
 #ifndef _WIFIMANAGER_h
 #define _WIFIMANAGER_h
 
-#include "arduino.h"
+#include "Arduino.h"
 #include <WiFi.h>
 #include <atomic>
 
