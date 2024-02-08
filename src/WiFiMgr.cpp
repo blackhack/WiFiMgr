@@ -274,6 +274,7 @@ String WiFiMgr::StatusToString(wl_status_t status)
     switch (status)
     {
         case WL_NO_SHIELD: return "WL_NO_SHIELD";
+        case WL_STOPPED: return "WL_STOPPED";
         case WL_IDLE_STATUS: return "WL_IDLE_STATUS";
         case WL_NO_SSID_AVAIL: return "WL_NO_SSID_AVAIL";
         case WL_SCAN_COMPLETED: return "WL_SCAN_COMPLETED";
